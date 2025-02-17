@@ -1,11 +1,23 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import Header from './Components/Header'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './Components/Home';
+import About from './Components/About';
 // import './App.css'
 
 function App() {
   return (
-    <h1 className='text-3xl'>This is my project</h1>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+    </Routes>
+  </BrowserRouter>
+    // <div>
+    //   <Header/>
+    // </div>
   )
   // const [count, setCount] = useState(0)
 
