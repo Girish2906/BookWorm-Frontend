@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 
 const Login = () => {
 
-    const [newUser , setNewUser] = useState(true) ; 
+    const [newUser , setNewUser] = useState(false) ; 
+    const [loginString , setLoginString] = useState("Existing User? Sign in here") ; 
+    
+    useEffect(() => {
+        setLoginString( newUser ? "Existing User? Sign in here" : "New User? Create account here") ; 
+    } , [newUser])
 
     return (
-        <div className=" bg-white border border-gray-500 w-80 h-auto rounded-2xl mx-auto my-auto  mt-30">
+        <div className=" bg-white border border-gray-500 w-80 h-auto rounded-2xl mx-auto my-auto  mt-30 mb-2">
             <div>
                 <h1 className=" text-black text-center text-2xl mt-4">Sign in or create account</h1>
                 { newUser && 
@@ -44,8 +49,8 @@ const Login = () => {
                 <div className="flex justify-center mt-4">
                 <button className="btn btn-success">Login</button>
                 </div>
-                <div onClick={() => setNewUser(!newUser)}>
-                    <p className="text-black flex justify-center mt-4" >New user? Sign up here</p>
+                <div  onClick={() => setNewUser(!newUser)}>
+                    <p className="text-black flex justify-center mt-4 cursor-pointer">{loginString}</p>
                 </div>
             </div>
 
