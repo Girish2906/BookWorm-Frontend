@@ -1,5 +1,9 @@
 import { useState , useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../utils/userSlice";
+
 import axios from "axios";
 
 const Login = () => {
@@ -11,7 +15,9 @@ const Login = () => {
     const [email , setEmail] = useState("") ;
     const [password , setPassword] = useState("") ;
     const [inputMessage, setInputMessage] = useState(false) ; 
-    
+    const [loading , setLoading] = useState(false) ; 
+    const dispatch = useDispatch() ; 
+    const navigate = useNavigate() ; 
     useEffect(() => {
         setInputMessage(false) ; 
         setLoginString( newUser ? "Existing User? Sign in here" : "New User? Create account here") ; 
@@ -50,12 +56,29 @@ const Login = () => {
                 BASE_URL + "/register" , {firstName , lastName , email , password}, {withCredentials: true}
             ) ; 
        }
-       console.log(response) ;  
+       console.log(response.data) ;  
+       if(response.data.isSuccess){
+        dispatch(addUser(response.data)) ; 
+       setTimeout(() => {
+        setLoading(false) ; 
+        navigate("/about") ; 
+       } , 100) ; 
+       }
     } ; 
 
+    const handleClick = () => {
+        if(!validateInput()){
+            setInputMessage(true) ; 
+        }else{
+            setInputMessage(false) ; 
+            setLoading(true) ; 
+            handleLogin() ; 
+        }
+    }
+
     return (
-        <div className=" bg-white border border-gray-500 w-80 h-auto rounded-2xl mx-auto my-auto  mt-30 mb-2">
-            <div>
+        <div className=" bg-white border border-gray-500 w-100 h-auto rounded-2xl mx-auto my-auto  mt-30 mb-2">
+            <div  className={`transition duration-100 ${loading ? "blur-[1px]" : ""}`}>
                 <h1 className=" text-black text-center text-2xl mt-4">Sign in or create account</h1>
                 { newUser && 
                      <div className="flex flex-col space-y-2">
@@ -100,24 +123,21 @@ const Login = () => {
                     </div>
                 }
                 <div className="flex justify-center mt-4">
-                <button className="btn btn-success"  onClick={
-                    () => {
-                        const val = validateInput(); 
-                        if(!val){
-                            setInputMessage(true) ; 
-                        }else{
-                            setInputMessage(false) ; 
-                            handleLogin() ; 
-                        }
-
-                    }
-                } >{newUser ? "Register" : "Login"}</button>
+                <button className="btn btn-success" disabled={loading} onClick={handleClick}>
+                    {newUser ? "Register" : "Login"}
+                    </button>
                 </div>
                 <div  onClick={() => setNewUser(!newUser)}>
                     <p className="text-black flex justify-center mt-4 cursor-pointer">{loginString}</p>
                 </div>
             </div>
+            {/* {
+                loading &&  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="text-white text-xl">Logging in...</div>
+            </div>
+            } */}
 
+                
         </div>
       
 

@@ -6,11 +6,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './Components/Home';
 import About from './Components/About';
 import Login from './Components/Login';
+import { Provider } from 'react-redux';
+import appStore from './utils/store';
 // import './App.css'
 
 function App() {
   return (
-    <BrowserRouter>
+   <Provider store={appStore}>
+     <BrowserRouter basename = "/">
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
@@ -18,6 +21,7 @@ function App() {
       
     </Routes>
   </BrowserRouter>
+   </Provider>
     // <div>
     //   <Header/>
     // </div>
