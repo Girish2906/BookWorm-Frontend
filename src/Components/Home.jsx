@@ -1,6 +1,30 @@
 import Header from "./Header";
+import axios from "axios";
+import {useState , useEffect} from "react" ;
+import { useDispatch } from "react-redux";
+import { BASE_URL } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../utils/userSlice";
 
 const Home = () => {
+  const dispatch = useDispatch() ; 
+  const fetchUser = async () => {
+    try{
+      const response = await axios.get(BASE_URL + "/profile" , {withCredentials: true}) ;  
+      console.log('HOME.jsx'  ,response) ; 
+      if(response.status === 200){
+        console.log("response.data: )()", response.data) ;
+        dispatch(addUser(response.data)) ; 
+      }
+    } catch(Error){
+      console.log("this is the error message: ",  Error ,Error.message) ; 
+    }
+  } 
+
+  useEffect(() => {
+    fetchUser() ; 
+  } , []) ; 
+
     return (
             <>
               <Header />

@@ -7,7 +7,7 @@ import { addUser } from "../utils/userSlice";
 import axios from "axios";
 
 const Login = () => {
-
+    console.log("component re-rendered") ; 
     const [newUser , setNewUser] = useState(false) ; 
     const [loginString , setLoginString] = useState("Existing User? Sign in here") ; 
     const [firstName , setFirstName] = useState("") ; 
@@ -56,12 +56,11 @@ const Login = () => {
                 BASE_URL + "/register" , {firstName , lastName , email , password}, {withCredentials: true}
             ) ; 
        }
-       console.log(response.data) ;  
        if(response.data.isSuccess){
         dispatch(addUser(response.data)) ; 
        setTimeout(() => {
         setLoading(false) ; 
-        navigate("/about") ; 
+        navigate("/") ; 
        } , 100) ; 
        }
     } ; 
