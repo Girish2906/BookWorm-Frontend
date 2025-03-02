@@ -3,6 +3,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../utils/userSlice";
+import Books from "./Books";
 
 import axios from "axios";
 
@@ -60,7 +61,7 @@ const Login = () => {
         dispatch(addUser(response.data)) ; 
        setTimeout(() => {
         setLoading(false) ; 
-        navigate("/") ; 
+        navigate("/books") ; 
        } , 100) ; 
        }
     } ; 

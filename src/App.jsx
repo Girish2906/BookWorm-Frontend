@@ -8,7 +8,7 @@ import About from './Components/About';
 import Login from './Components/Login';
 import { Provider } from 'react-redux';
 import appStore from './utils/store';
-// import './App.css'
+import Books  from'./Components/Books' ; 
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
+      <Route path = '/books' element = {<Books/>} />
       
     </Routes>
   </BrowserRouter>

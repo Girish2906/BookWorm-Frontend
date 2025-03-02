@@ -35,6 +35,7 @@ const Header = () => {
       //   withCredentials: true,
       // });
       // console.log("this is the logot response" , response) ; 
+      dispatch(removeUser());
       navigate("/login");
 
       // if (response.status === 200) {
