@@ -7,7 +7,7 @@ import BookCard from "./BookCard";
 const Books = () => {
 
     const [books , setBooks] = useState([]) ; 
-    // console.log("these are the books to show in the book card" , books) ; 
+    console.log("these are the books to show in the book card" , books) ; 
     const fetchBooks = async () => {
         try{
             const response = await axios.get(BASE_URL + '/getAllBooks' , {withCredentials: true}) ; 
@@ -34,8 +34,10 @@ const Books = () => {
           </div>
              :  
             //  <div>random test</div>
-                books.map(book => (  <BookCard book ={book} /> ) )
-           }
+            books.map(book => (   <BookCard key={book._id}  book ={book} /> ) )
+
+            // books.map(book => (   <BookCard   book ={book} /> ) )
+        }
             </>
     )
 } ; 

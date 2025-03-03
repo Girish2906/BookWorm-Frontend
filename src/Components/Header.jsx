@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Login from "./Login";
@@ -6,7 +6,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-// import {persistor} from "@reduxjs/toolkit" ; 
+// import {persistor} from "@reduxjs/toolkit" ;
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,12 +29,12 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(BASE_URL + "/logout" , {} , {withCredentials: true} ) ; 
-      // await axios.post(BASE_URL + "/logout" , {withCredential s: true} ) ; 
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      // await axios.post(BASE_URL + "/logout" , {withCredential s: true} ) ;
       // const response = await axios.post(BASE_URL + "/logout", {
       //   withCredentials: true,
       // });
-      // console.log("this is the logot response" , response) ; 
+      // console.log("this is the logot response" , response) ;
       dispatch(removeUser());
       navigate("/login");
 
@@ -53,10 +53,18 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="navbar bg-base-100 m-4">
+    // <div className="navbar bg-base-100 m-4">
+    <div className="navbar bg-white m-4">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">BookWorm</a>
+        <a
+          className="text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300" // Replace with your actual link
+        >
+          BookWorm
+        </a>
       </div>
+      <div>
+        <button className="btn btn-accent cursor-pointer" onClick={ () => {console.log("Login Button")} } >Login</button>
+        </div>
       <div className="flex-none gap-2 mr-5">
         <div className="dropdown dropdown-end">
           <div
@@ -73,7 +81,8 @@ const Header = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          >
             <li>
               <a className="justify-between">
                 Profile
@@ -90,10 +99,7 @@ const Header = () => {
           </ul>
         </div>
       </div>
-          <div className="fixed top-4 right-4 z-50 transition-opacity duration-300 opacity-100">
-
-        </div>
-
+      <div className="fixed top-4 right-4 z-50 transition-opacity duration-300 opacity-100"></div>
     </div>
   );
 };
