@@ -1,28 +1,40 @@
 import Header from "./Header";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import {useState , useEffect} from 'react' ; 
+import {useState , useEffect , createContext} from 'react' ; 
 import BookCard from "./BookCard";
+import { useDispatch , useSelector } from "react-redux";
+const ExploreLoginContext = createContext() ;  
 
 const Books = () => {
-
+    const user = useSelector(state => state.user) ; 
+    console.log("books.jsx user ",user) ; 
+    const [isLogin , setIsLogin] = useState(false) ; 
+    const [showLoginAnimation , setShowLoginAnimation] = useState(false) ;
     const [books , setBooks] = useState([]) ; 
     console.log("these are the books to show in the book card" , books) ; 
     const fetchBooks = async () => {
         try{
             const response = await axios.get(BASE_URL + '/getAllBooks' , {withCredentials: true}) ; 
-            // console.log(response) ; 
             setBooks(response.data.data) ; 
         } catch(Error){
             console.log(Error.message) ; 
         }
     } ; 
-    
+    const isUserLoggedIn = () => {
+        if(user){
+          setIsLogin(true) ; 
+        } else setIsLogin(false) ;
+    }
+    useEffect(() => {
+        isUserLoggedIn() ; 
+      } , [user]) ; 
     useEffect(() => {
         fetchBooks() ; 
     } , []) ; 
 
     return (
+        <ExploreLoginContext.Provider value={{isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation}}>
             <>
             <Header/>
            {
@@ -39,7 +51,9 @@ const Books = () => {
             // books.map(book => (   <BookCard   book ={book} /> ) )
         }
             </>
+            </ExploreLoginContext.Provider>
     )
 } ; 
+export {ExploreLoginContext} ; 
 
 export default Books ; 

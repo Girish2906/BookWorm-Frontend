@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useContext } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Login from "./Login";
@@ -6,9 +6,11 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-// import {persistor} from "@reduxjs/toolkit" ;
+import { ExploreLoginContext } from "./Books";
 
 const Header = () => {
+  const {isLogin , showLoginAnimation } = useContext(ExploreLoginContext) ; 
+  console.log("!#$#",isLogin , showLoginAnimation) ; 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signIn, setSignIn] = useState(true);
@@ -30,19 +32,9 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
-      // await axios.post(BASE_URL + "/logout" , {withCredential s: true} ) ;
-      // const response = await axios.post(BASE_URL + "/logout", {
-      //   withCredentials: true,
-      // });
-      // console.log("this is the logot response" , response) ;
+
       dispatch(removeUser());
       navigate("/login");
-
-      // if (response.status === 200) {
-      //   console.log("removing teh user")
-      //   dispatch(removeUser());
-      //   return navigate("/login");
-      // }
     } catch (Error) {
       console.error("Header.jsx handleLogout", Error.message);
     }
@@ -53,17 +45,30 @@ const Header = () => {
   }, []);
 
   return (
-    // <div className="navbar bg-base-100 m-4">
     <div className="navbar bg-white m-4">
       <div className="flex-1">
         <a
-          className="text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300" // Replace with your actual link
+          className="text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300" 
         >
           BookWorm
         </a>
       </div>
       <div>
-        <button className="btn btn-accent cursor-pointer" onClick={ () => {console.log("Login Button")} } >Login</button>
+
+      <div className="mr-8">
+        <button className="btn btn-accent cursor-pointer"
+          onClick={() => console.log("Login Button")}
+        >
+          Login
+        </button>
+        { !showLoginAnimation && ( // Show tooltip only when showLoginAnimation is false
+        <div className="absolute top-full left-0 mt-2 bg-gray-800 text-white p-2 rounded-md z-10">
+          {/* Tooltip content */}
+          This is a tooltip!
+        </div>
+      )}
+      </div>
+        {/* <button className="btn btn-accent cursor-pointer" onClick={ () => {console.log("Login Button")} } >Login</button> */}
         </div>
       <div className="flex-none gap-2 mr-5">
         <div className="dropdown dropdown-end">

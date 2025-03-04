@@ -1,14 +1,13 @@
-import {useState , useEffect} from "react" ;
+import {useState , useEffect , useContext } from "react" ; 
+import {ExploreLoginContext} from "./Books" ;
 
 const BookCard = ({book}) => {
+    const {isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation} = useContext(ExploreLoginContext) ; 
     const {author , genre , image , name , pages , price} = book ;
-    // const uploadedAt = new Date(book.updatedAt) ;  
+
     const date = new Date(book.updatedAt);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const uploadedAt =  date.toLocaleDateString(undefined, options);
-    // const uplooadedAt = book
-    // console.log("this is the book card " , book) ; 
-    // console.log(image)
     return (
       <div className="mx-auto items-center justify-center border-2 rounded-2xl w-7xl h-90 p-3 relative mb-3">
       <div className="flex flex-row">
@@ -28,7 +27,15 @@ const BookCard = ({book}) => {
         <div>
     <button
       className="btn btn-accent cursor-pointer transition-transform duration-200 hover:scale-105"
-      onClick={() => { console.log("hello world"); }}
+      onClick={() => { 
+        if(!isLogin){
+          setShowLoginAnimation(false) ; 
+          setTimeout(() => {
+            setShowLoginAnimation(true) ; 
+          } , 2000) ; 
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+       }}
     >
       Explore
     </button>
