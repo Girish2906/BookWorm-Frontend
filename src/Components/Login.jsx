@@ -61,7 +61,7 @@ const Login = () => {
         dispatch(addUser(response.data)) ; 
        setTimeout(() => {
         setLoading(false) ; 
-        navigate("/books") ; 
+        navigate("/") ; 
        } , 100) ; 
        }
     } ; 

@@ -8,14 +8,15 @@ const ExploreLoginContext = createContext() ;
 
 const Books = () => {
     const user = useSelector(state => state.user) ; 
-    console.log("books.jsx user ",user) ; 
+    // console.log("books.jsx user ",user) ; 
     const [isLogin , setIsLogin] = useState(false) ; 
-    const [showLoginAnimation , setShowLoginAnimation] = useState(false) ;
+    const [showLoginAnimation , setShowLoginAnimation] = useState(false) ; 
     const [books , setBooks] = useState([]) ; 
-    console.log("these are the books to show in the book card" , books) ; 
+    // console.log("values sending in the context" , isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation)  ; 
+    // console.log("these are the books to show in the book card" , books) ; 
     const fetchBooks = async () => {
         try{
-            const response = await axios.get(BASE_URL + '/getAllBooks' , {withCredentials: true}) ; 
+            const response = await axios.get(BASE_URL + '/book/getAllBooks' , {withCredentials: true}) ; 
             setBooks(response.data.data) ; 
         } catch(Error){
             console.log(Error.message) ; 
@@ -32,10 +33,9 @@ const Books = () => {
     useEffect(() => {
         fetchBooks() ; 
     } , []) ; 
-
+    console.log(isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation)
     return (
         <ExploreLoginContext.Provider value={{isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation}}>
-            <>
             <Header/>
            {
             !books.length ?
@@ -50,7 +50,6 @@ const Books = () => {
 
             // books.map(book => (   <BookCard   book ={book} /> ) )
         }
-            </>
             </ExploreLoginContext.Provider>
     )
 } ; 

@@ -1,4 +1,4 @@
-import { useState, useEffect , useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Login from "./Login";
@@ -9,10 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { ExploreLoginContext } from "./Books";
 
 const Header = () => {
-  const {isLogin , showLoginAnimation } = useContext(ExploreLoginContext) ; 
-  console.log("!#$#",isLogin , showLoginAnimation) ; 
+  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } =useContext(ExploreLoginContext);
+  console.log(isLogin, showLoginAnimation);
+
+  // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
+  // console.log("!#$#",isLogin, showLoginAnimation) ;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showLogoutBox , setShowLogoutBox] = useState(false) ; 
+  const [loading , setLoading] = useState(false) ; 
   const [signIn, setSignIn] = useState(true);
 
   const fetchUser = async () => {
@@ -30,15 +35,22 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
+    setLoading(true);
+    
     try {
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating delay
+  
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
-
+  
       dispatch(removeUser());
       navigate("/login");
-    } catch (Error) {
-      console.error("Header.jsx handleLogout", Error.message);
+    } catch (error) {
+      console.error("Header.jsx handleLogout", error.message);
+    } finally {
+      setLoading(false); // Ensure loading state is reset even if error occurs
     }
   };
+  
 
   useEffect(() => {
     fetchUser();
@@ -47,29 +59,31 @@ const Header = () => {
   return (
     <div className="navbar bg-white m-4">
       <div className="flex-1">
-        <a
-          className="text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300" 
-        >
+        <a className="text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300">
           BookWorm
         </a>
       </div>
       <div>
+        <div className="mr-8 relative">
+          <button
+            className={`btn cursor-pointer transition-all duration-300 ${
+              showLoginAnimation
+                ? "bg-red-400  animate-pulse text-white"
+                : "btn-accent hover:scale-105"
+            }`} onClick={() => {
+              if(!isLogin){
+                navigate("/login") ; 
+              } else{
+                setShowLogoutBox(true) ; 
+              }
+            }}
+          >
+            {isLogin ? "Logout" : "Login"}
+          </button>
+        </div>
 
-      <div className="mr-8">
-        <button className="btn btn-accent cursor-pointer"
-          onClick={() => console.log("Login Button")}
-        >
-          Login
-        </button>
-        { !showLoginAnimation && ( // Show tooltip only when showLoginAnimation is false
-        <div className="absolute top-full left-0 mt-2 bg-gray-800 text-white p-2 rounded-md z-10">
-          {/* Tooltip content */}
-          This is a tooltip!
-        </div>
-      )}
-      </div>
         {/* <button className="btn btn-accent cursor-pointer" onClick={ () => {console.log("Login Button")} } >Login</button> */}
-        </div>
+      </div>
       <div className="flex-none gap-2 mr-5">
         <div className="dropdown dropdown-end">
           <div
@@ -97,14 +111,27 @@ const Header = () => {
             <li>
               <a>Settings</a>
             </li>
-            <li>
-              {/* <a>Logout</a> */}
-              <Link onClick={handleLogout}>Logout</Link>
-            </li>
           </ul>
         </div>
       </div>
       <div className="fixed top-4 right-4 z-50 transition-opacity duration-300 opacity-100"></div>
+      {
+        showLogoutBox && <div>
+          <div  className="fixed inset-0  bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gray-600 w-96 h-40 p-4 rounded-lg flex flex-col justify-center items-center">
+              <h1 className="text-2xl">Are you sure you want to logout?</h1>
+              <div className="flex gap-4 mt-4">
+                <button className="btn btn-danger" disabled={loading} onClick={handleLogout}>  Yes</button>
+                <button className="btn btn-success" onClick={() => setShowLogoutBox(false)}>No</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      } {loading && (
+        <div className="fixed inset-0 flex items-center justify-center  bg-opacity-60 z-50">
+          <div className="animate-spin border-t-4 border-white border-solid rounded-full h-16 w-16"></div>
+        </div>
+      )}
     </div>
   );
 };

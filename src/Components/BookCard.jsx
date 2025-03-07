@@ -7,6 +7,17 @@ const BookCard = ({book}) => {
 
     const date = new Date(book.updatedAt);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+  useEffect(() => {
+    let timerReturn ; 
+    if(! isLogin){
+      timerReturn  = setTimeout(() => {
+        setShowLoginAnimation(false) ; 
+      } , 1000) ; 
+    }
+    return () => clearTimeout(timerReturn) ; 
+  } , [showLoginAnimation]) ; 
+
   const uploadedAt =  date.toLocaleDateString(undefined, options);
     return (
       <div className="mx-auto items-center justify-center border-2 rounded-2xl w-7xl h-90 p-3 relative mb-3">
@@ -29,10 +40,7 @@ const BookCard = ({book}) => {
       className="btn btn-accent cursor-pointer transition-transform duration-200 hover:scale-105"
       onClick={() => { 
         if(!isLogin){
-          setShowLoginAnimation(false) ; 
-          setTimeout(() => {
-            setShowLoginAnimation(true) ; 
-          } , 2000) ; 
+          setShowLoginAnimation(true) ; 
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
        }}

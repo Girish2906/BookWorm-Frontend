@@ -15,7 +15,7 @@ function App() {
    <Provider store={appStore}>
      <BrowserRouter basename = "/">
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Books />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path = '/books' element = {<Books/>} />
