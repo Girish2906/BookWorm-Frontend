@@ -4,11 +4,13 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../utils/userSlice";
 import Books from "./Books";
-
+import { useContext } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Login = () => {
-    console.log("component re-rendered") ; 
+    const user = useSelector(state => state.user) ; 
+    console.log("this is the user: ",user) ; 
     const [newUser , setNewUser] = useState(false) ; 
     const [loginString , setLoginString] = useState("Existing User? Sign in here") ; 
     const [firstName , setFirstName] = useState("") ; 
@@ -57,7 +59,9 @@ const Login = () => {
                 BASE_URL + "/register" , {firstName , lastName , email , password}, {withCredentials: true}
             ) ; 
        }
+       console.log(response) ; 
        if(response.data.isSuccess){
+        // console.log("response.data.isSuccess: ",response.data.isSuccess) ; 
         dispatch(addUser(response.data)) ; 
        setTimeout(() => {
         setLoading(false) ; 

@@ -7,21 +7,24 @@ import Home from './Components/Home';
 import About from './Components/About';
 import Login from './Components/Login';
 import { Provider } from 'react-redux';
-import appStore from './utils/store';
+import { PersistGate } from "redux-persist/integration/react";
+import appStore , {persistor} from './utils/store';
 import Books  from'./Components/Books' ; 
 
 function App() {
   return (
    <Provider store={appStore}>
-     <BrowserRouter basename = "/">
-    <Routes>
-      <Route path="/" element={<Books />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/login" element={<Login />} />
-      <Route path = '/books' element = {<Books/>} />
-      
-    </Routes>
-  </BrowserRouter>
+     {/* <PersistGate loading={null} persistor={persistor}> */}
+        <BrowserRouter basename = "/">
+        <Routes>
+          <Route path="/" element={<Books />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path = '/books' element = {<Books/>} />
+          
+        </Routes>
+      </BrowserRouter>
+    {/* </PersistGate> */}
    </Provider>
     // <div>
     //   <Header/>

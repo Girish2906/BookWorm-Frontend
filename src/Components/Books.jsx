@@ -8,8 +8,9 @@ const ExploreLoginContext = createContext() ;
 
 const Books = () => {
     const user = useSelector(state => state.user) ; 
-    // console.log("books.jsx user ",user) ; 
-    const [isLogin , setIsLogin] = useState(false) ; 
+    // console.log("books.jsx user ",user , user.data) ; 
+    const [isLogin , setIsLogin] = useState(  user.data ? false : true  ) ; 
+    console.log(isLogin)
     const [showLoginAnimation , setShowLoginAnimation] = useState(false) ; 
     const [books , setBooks] = useState([]) ; 
     // console.log("values sending in the context" , isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation)  ; 
@@ -23,7 +24,8 @@ const Books = () => {
         }
     } ; 
     const isUserLoggedIn = () => {
-        if(user){
+        console.log("is user logged in" , user) ; 
+        if(user?.isSuccess){
           setIsLogin(true) ; 
         } else setIsLogin(false) ;
     }
@@ -33,7 +35,6 @@ const Books = () => {
     useEffect(() => {
         fetchBooks() ; 
     } , []) ; 
-    console.log(isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation)
     return (
         <ExploreLoginContext.Provider value={{isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation}}>
             <Header/>

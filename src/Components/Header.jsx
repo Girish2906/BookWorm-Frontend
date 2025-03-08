@@ -10,7 +10,7 @@ import { ExploreLoginContext } from "./Books";
 
 const Header = () => {
   const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } =useContext(ExploreLoginContext);
-  console.log(isLogin, showLoginAnimation);
+  console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
 
   // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
   // console.log("!#$#",isLogin, showLoginAnimation) ;
@@ -22,7 +22,6 @@ const Header = () => {
 
   const fetchUser = async () => {
     try {
-      console.log("fetchUser");
       const response = await axios.get(BASE_URL + "/profile", {
         withCredentials: true,
       });
@@ -72,6 +71,7 @@ const Header = () => {
                 : "btn-accent hover:scale-105"
             }`} onClick={() => {
               if(!isLogin){
+                setIsLogin(false) ;
                 navigate("/login") ; 
               } else{
                 setShowLogoutBox(true) ; 
