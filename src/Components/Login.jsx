@@ -7,6 +7,8 @@ import Books from "./Books";
 import { useContext } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
+
 
 const Login = () => {
     const user = useSelector(state => state.user) ; 
@@ -19,6 +21,7 @@ const Login = () => {
     const [password , setPassword] = useState("") ;
     const [inputMessage, setInputMessage] = useState(false) ; 
     const [loading , setLoading] = useState(false) ; 
+    const [showPassword , setShowPassword] = useState(false) ; 
     const dispatch = useDispatch() ; 
     const navigate = useNavigate() ; 
     useEffect(() => {
@@ -114,7 +117,14 @@ const Login = () => {
                     Password
                 </label>
                 <input
-                    type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="text-black border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mx-auto my-auto" />
+                    type={showPassword ? 'text' : 'password'} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="text-black border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mx-auto my-auto" />
+                     <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className=" transform -translate-y-1/2 text-gray-600 hover:text-black"
+                            >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                 </div>
                 {  inputMessage &&  newUser && (firstName === "" || lastName === "" || email === "" || password === "") &&
                     <div className="flex justify-center">

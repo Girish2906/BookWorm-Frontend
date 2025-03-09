@@ -2,23 +2,26 @@ import {useState , useEffect , useContext } from "react" ;
 import {ExploreLoginContext} from "./Books" ; 
 import BookInterest from "./BookInterest";
 import { createContext } from "react";
+import { useSelector } from "react-redux";
+import { BASE_URL } from "../utils/constants";
+import axios from 'axios' ; 
+import BottomLeftCornerToaster from "./BottomLeftCornerToaster" ; 
 
 const BookInterestContext = createContext() ; 
 
 const BookCard = ({book}) => {
+  const user = useSelector((state) => state.user) ; 
+  // console.log("this is the user" , user) ; 
+  // console.log(book) ; 
     const {isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation} = useContext(ExploreLoginContext) ; 
     const {author , genre , image , name , pages , price} = book ; 
     const {firstName , lastName} = book.uploadedById ; 
-    const [bookInterest , setBookInterest] = useState(false) ; 
-
     const date = new Date(book.updatedAt);
-    // console.log(date , new Date() , new Date() - date ) ; 
-    // console.log(new Date() , new Date(book.updatedAt) , new Date() - new Date(book.updatedAt)  )
+    const [bookInterest , setBookInterest] = useState(false) ; 
+    const [multipleRequestNotAllowed , setMultipleRequestNotAllowed ] = useState(false) ; 
+    
     const numberOfDays = Math.floor((new Date().getTime() - date.getTime())/(1000*24*60*60)) ; 
-    // console.log(numberOfDays)
-    // console.log("daysInMilliseconds" , daysInMilliseconds , (daysInMilliseconds*1000) / (1000*24*60*60) )
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  // console.log(book) ; 
 
   useEffect(() => {
     let timerReturn ; 
@@ -37,14 +40,30 @@ const BookCard = ({book}) => {
     } else {
       document.body.style.overflow = "auto";
     }
-  
     // Cleanup function to reset scroll behavior when popup is closed
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [bookInterest]);
   
-  const checkExplore = () => {} ; 
+  const checkExplore = async () => {
+   try{
+    console.log("try catch")
+      const bookId = book._id ; 
+      const interestedById = user?.data?._id ; 
+      const response = await axios.post(BASE_URL + "/bookInterest/find" , {bookId , interestedById} , {withCredentials: true}) ; 
+      console.log("!$#!$",response , response.data.length) ; 
+      if(response.data.length !== 0){
+        setBookInterest(false) ; 
+        setMultipleRequestNotAllowed(true) ; 
+        setTimeout(() => {setMultipleRequestNotAllowed(false)} , 1900) ; 
+      } else{setBookInterest(true) ; }
+   } catch(Error){
+    console.log(Error.message) ; 
+   }
+    //  const interestedById
+
+  } ; 
   const uploadedAt =  date.toLocaleDateString(undefined, options);
     return (
       <BookInterestContext.Provider value={{bookInterest , setBookInterest}} >
@@ -73,50 +92,34 @@ const BookCard = ({book}) => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         } else{
           checkExplore() ; 
-          setBookInterest(true); 
         }
        }}
     >
       Explore
-      {  
-        // console.log("Rendering condition: ", bookInterest)
-      }
     </button>
   </div>
   {
     bookInterest && 
-    <BookInterest name={name} />
-  //   <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-blue-100 w-96 p-4 rounded-lg shadow-lg z-50">
-  //     <button 
-  //       className="absolute top-2 right-2 text-xl font-bold text-gray-600 hover:text-black"
-  //       onClick={() => setBookInterest(false)}
-  //     >
-  //       ×
-  //     </button>
-  //     <h2 className="text-xl font-semibold text-black">Interested | {name}</h2>
-  //     <p className="mt-2 text-gray-600">Members are more likely to accept an interest with a note</p>
-
-  //     <div className="mt-4 flex justify-center gap-4">
-  //       <button 
-  //         className="btn btn-accent px-4 py-2"
-  //         onClick={() => {
-  //           console.log("Invitation Sent!");
-  //         }}
-  //       >
-  //         Send
-  //       </button>
-  //       <button 
-  //         className="btn btn-secondary px-4 py-2"
-  //         onClick={() => setBookInterest(false) }
-  //       >
-  //         Cancel
-  //       </button>
-  //     </div>
-  // </div>
+    <BookInterest book={{name , bookId: book._id}} />
   }
       </div>
       </div>
     </div>
+    {
+      multipleRequestNotAllowed && (<BottomLeftCornerToaster message = {{message: "Request Already Sent" , color: 'red'}}  />)
+    }
+     <style>
+        {`
+          @keyframes slide {
+            from { width: 100%; }
+            to { width: 0%; }
+          }
+          
+          .animate-slide {
+            animation: slide 2s linear forwards;
+          }
+        `}
+      </style>
     </BookInterestContext.Provider>
     )
 } ; 
