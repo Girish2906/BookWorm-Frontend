@@ -7,6 +7,8 @@ import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { ExploreLoginContext } from "./Books";
+// import { Sparkles } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 
 const Header = () => {
   const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } =useContext(ExploreLoginContext);
@@ -50,6 +52,9 @@ const Header = () => {
     }
   };
   
+  const handleUpload = () => {
+    navigate("/upload") ; 
+  }
 
   useEffect(() => {
     fetchUser();
@@ -63,7 +68,8 @@ const Header = () => {
         </a>
       </div>
       <div>
-        <div className="mr-8 relative">
+        <div className="mr-8 relative flex ">
+        <PlusCircle className={`w-6 h-6 text-blue-500 mt-2 mr-4 cursor-pointer ${!isLogin ? "hidden" : ""}`}  onClick={handleUpload} />
           <button
             className={`btn cursor-pointer transition-all duration-300 ${
               showLoginAnimation

@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import appStore , {persistor} from './utils/store';
 import Books  from'./Components/Books' ; 
+import UploadNewBook from './Components/UploadNewBook';
 
 function App() {
   return (
@@ -21,41 +22,13 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path = '/books' element = {<Books/>} />
+          <Route path = '/upload' element = {<UploadNewBook/>} />
           
         </Routes>
       </BrowserRouter>
     {/* </PersistGate> */}
    </Provider>
-    // <div>
-    //   <Header/>
-    // </div>
   )
-  // const [count, setCount] = useState(0)
-
-  // return (
-  //   <>
-  //     <div>
-  //       <a href="https://vite.dev" target="_blank">
-  //         <img src={viteLogo} className="logo" alt="Vite logo" />
-  //       </a>
-  //       <a href="https://react.dev" target="_blank">
-  //         <img src={reactLogo} className="logo react" alt="React logo" />
-  //       </a>
-  //     </div>
-  //     <h1>Vite + React</h1>
-  //     <div className="card">
-  //       <button onClick={() => setCount((count) => count + 1)}>
-  //         count is {count}
-  //       </button>
-  //       <p>
-  //         Edit <code>src/App.jsx</code> and save to test HMR
-  //       </p>
-  //     </div>
-  //     <p className="read-the-docs">
-  //       Click on the Vite and React logos to learn more
-  //     </p>
-  //   </>
-  // )
 }
 
 export default App

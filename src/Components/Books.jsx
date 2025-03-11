@@ -4,6 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import {useState , useEffect , createContext} from 'react' ; 
 import BookCard from "./BookCard";
 import { useDispatch , useSelector } from "react-redux";
+import Loading from "./Loading";
 const ExploreLoginContext = createContext() ;  
 
 const Books = () => {
@@ -13,8 +14,6 @@ const Books = () => {
     console.log(isLogin)
     const [showLoginAnimation , setShowLoginAnimation] = useState(false) ; 
     const [books , setBooks] = useState([]) ; 
-    // console.log("values sending in the context" , isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation)  ; 
-    // console.log("these are the books to show in the book card" , books) ; 
     const fetchBooks = async () => {
         try{
             const response = await axios.get(BASE_URL + '/book/getAllBooks' , {withCredentials: true}) ; 
@@ -40,11 +39,7 @@ const Books = () => {
             <Header/>
            {
             !books.length ?
-            <div className="flex justify-center items-center">
-            <div className="w-64 h-40  rounded-lg overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-[shimmer_5.5s_infinite]"></div>
-            </div>
-          </div>
+            <Loading color={{color: 'white'}} />
              :  
             //  <div>random test</div>
             books.map(book => (   <BookCard key={book._id}  book ={book} /> ) )

@@ -16,7 +16,8 @@ const BookCard = ({book}) => {
     const {isLogin , setIsLogin , showLoginAnimation , setShowLoginAnimation} = useContext(ExploreLoginContext) ; 
     const {author , genre , image , name , pages , price} = book ; 
     const {firstName , lastName} = book.uploadedById ; 
-    const date = new Date(book.updatedAt);
+    const date = new Date(book.createdAt
+    );
     const [bookInterest , setBookInterest] = useState(false) ; 
     const [multipleRequestNotAllowed , setMultipleRequestNotAllowed ] = useState(false) ; 
     
@@ -82,7 +83,7 @@ const BookCard = ({book}) => {
         <h2 className="text-xl font-semibold text-gray-200">₹ {price}</h2> 
         <p className="text-lg font-semibold text-gray-300">{genre}</p> 
         <h4 className="text-lg font-semibold text-gray-300">{pages} pages</h4>
-        <h4 className="text-lg font-semibold text-gray-300">Uploaded By {firstName + ' ' + lastName + ' ' + numberOfDays} days before </h4>
+        <h4 className="text-lg font-semibold text-gray-300">Uploaded By {firstName + ' ' + lastName + ' ' + (numberOfDays ?  `${numberOfDays} days before` : ' today' ) } </h4>
         <div>
     <button
       className="btn btn-accent cursor-pointer transition-transform duration-200 hover:scale-105"
