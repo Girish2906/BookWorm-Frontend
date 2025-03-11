@@ -6,13 +6,15 @@ import BookCard from "./BookCard";
 import { useDispatch , useSelector } from "react-redux";
 import Loading from "./Loading";
 const ExploreLoginContext = createContext() ;  
+import { useExploreLogin } from "./Context";
 
 const Books = () => {
     const user = useSelector(state => state.user) ; 
+    const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin(); 
     // console.log("books.jsx user ",user , user.data) ; 
-    const [isLogin , setIsLogin] = useState(  user.data ? false : true  ) ; 
+    // const [isLogin , setIsLogin] = useState(  user.data ? false : true  ) ; 
     console.log(isLogin)
-    const [showLoginAnimation , setShowLoginAnimation] = useState(false) ; 
+    // const [showLoginAnimation , setShowLoginAnimation] = useState(false) ; 
     const [books , setBooks] = useState([]) ; 
     const fetchBooks = async () => {
         try{

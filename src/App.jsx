@@ -10,22 +10,25 @@ import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import appStore , {persistor} from './utils/store';
 import Books  from'./Components/Books' ; 
-import UploadNewBook from './Components/UploadNewBook';
+import UploadNewBook from './Components/UploadNewBook'; 
+import {ExploreLoginProvider} from './Components/Context' ; 
 
 function App() {
   return (
    <Provider store={appStore}>
      {/* <PersistGate loading={null} persistor={persistor}> */}
+     <ExploreLoginProvider>
         <BrowserRouter basename = "/">
-        <Routes>
-          <Route path="/" element={<Books />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path = '/books' element = {<Books/>} />
-          <Route path = '/upload' element = {<UploadNewBook/>} />
-          
-        </Routes>
-      </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Books />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path = '/books' element = {<Books/>} />
+            <Route path = '/upload' element = {<UploadNewBook/>} />
+            
+          </Routes>
+        </BrowserRouter>
+      </ExploreLoginProvider>
     {/* </PersistGate> */}
    </Provider>
   )

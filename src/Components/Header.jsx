@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { ExploreLoginContext } from "./Books";
 // import { Sparkles } from "lucide-react";
 import { PlusCircle } from "lucide-react";
+import { useExploreLogin } from "./Context";
 
 const Header = () => {
-  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } =useContext(ExploreLoginContext);
+  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin(); 
   console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
 
   // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
