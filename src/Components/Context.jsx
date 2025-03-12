@@ -1,11 +1,15 @@
 // ExploreLoginContext.js (or a similar name)
 import React, { createContext, useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ExploreLoginContext = createContext();
 
 export const ExploreLoginProvider = ({ children }) => {
-  const [isLogin, setIsLogin] = useState(false);
+  const user = useSelector(state => state.user) ; 
+  const [isLogin, setIsLogin] = useState(user?.data ? true : false);
   const [showLoginAnimation, setShowLoginAnimation] = useState(false);
+
+
 
   const contextValue = {
     isLogin,

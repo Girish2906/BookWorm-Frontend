@@ -13,7 +13,7 @@ import { useExploreLogin } from "./Context";
 
 const Header = () => {
   const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin(); 
-  console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
+  // console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
 
   // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
   // console.log("!#$#",isLogin, showLoginAnimation) ;
@@ -22,6 +22,19 @@ const Header = () => {
   const [showLogoutBox , setShowLogoutBox] = useState(false) ; 
   const [loading , setLoading] = useState(false) ; 
   const [signIn, setSignIn] = useState(true);
+  const [showUploadIcon , setShowUploadIcon] = useState(true) ; 
+
+  const checkURL = () => {
+      const hostUrl = window.location.href.split('/') ; 
+    if(hostUrl[hostUrl.length-1] === 'upload'){
+      console.log(hostUrl , hostUrl[hostUrl.length-1] === 'upload' )
+      setShowUploadIcon(!showUploadIcon) ; 
+    }
+  }
+
+  useEffect(() => {
+    checkURL() ; 
+  } , [])
 
   const fetchUser = async () => {
     try {
@@ -63,14 +76,14 @@ const Header = () => {
 
   return (
     <div className="navbar bg-white m-4">
-      <div className="flex-1">
-        <a className="text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300">
+      <div className="flex-1" >
+        <a  onClick={() => {navigate("/")}} className=" cursor-pointer text-xl font-semibold text-blue-800 hover:text-blue-600 transition-colors duration-300">
           BookWorm
         </a>
       </div>
       <div>
         <div className="mr-8 relative flex ">
-        <PlusCircle className={`w-6 h-6 text-blue-500 mt-2 mr-4 cursor-pointer ${!isLogin ? "hidden" : ""}`}  onClick={handleUpload} />
+          {showUploadIcon &&   <PlusCircle className={`w-6 h-6 text-blue-500 mt-2 mr-4 cursor-pointer ${!isLogin ? "hidden" : ""}`}  onClick={handleUpload} />}
           <button
             className={`btn cursor-pointer transition-all duration-300 ${
               showLoginAnimation

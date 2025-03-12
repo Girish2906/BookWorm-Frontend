@@ -16,7 +16,7 @@ import {ExploreLoginProvider} from './Components/Context' ;
 function App() {
   return (
    <Provider store={appStore}>
-     {/* <PersistGate loading={null} persistor={persistor}> */}
+     <PersistGate loading={null} persistor={persistor}>
      <ExploreLoginProvider>
         <BrowserRouter basename = "/">
           <Routes>
@@ -29,7 +29,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </ExploreLoginProvider>
-    {/* </PersistGate> */}
+    </PersistGate>
    </Provider>
   )
 }
