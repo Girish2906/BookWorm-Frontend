@@ -13,7 +13,7 @@ import { useExploreLogin } from "./Context";
 
 const Header = () => {
   const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin(); 
-  // console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
+  console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
 
   // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
   // console.log("!#$#",isLogin, showLoginAnimation) ;
@@ -72,7 +72,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  });
 
   return (
     <div className="navbar bg-white m-4">
