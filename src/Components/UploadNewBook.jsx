@@ -3,12 +3,13 @@ import { useExploreLogin } from "./Context";
 import { useState , useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 // import { useContext } from "react";
 // import { ExploreLoginContext } from './Books';
 
 const UploadNewBook = () => {
-  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } =
-    useExploreLogin();
+  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [name , setName] = useState('') ; 
@@ -18,16 +19,15 @@ const UploadNewBook = () => {
   const [price , setPrice] = useState() ; 
   const [allFieldsMandatory , setAllFieldsMandatory] = useState(false) ; 
   const [coverImage , setCoverImage] = useState() ; 
-  let fileBase64 = '' ; 
+  const [loading , setLoading] = useState(false) ; 
+  const navigate = useNavigate() ; 
+  let fileInput ; 
 
   const handleFileUpload = async (event) => {
+    console.log(24 , "handle file upload" , event.target.files[0]) ; 
     const file = event.target.files[0]; // Get the selected file
-  
-    if (file) {
-      const base64 = await convertToBase64(file);
-      console.log(base64) ; 
-      fileBase64 = base64 ; 
-    }
+    fileInput = file ; 
+    console.log(fileInput , "afasdf!@#$@!" , file) ; 
   };
   
   // Function to convert file to Base64
@@ -44,7 +44,7 @@ const UploadNewBook = () => {
   const fetchGenres = async () => {
     const response = await axios.get(BASE_URL + '/book/genres' , {withCredentials: true} ) ; 
     setGenres(response.data.data) ; 
-    console.log(response) ; 
+    // console.log(response) ; 
   }
 
   useEffect(() =>{
@@ -52,21 +52,25 @@ const UploadNewBook = () => {
   } , []) ; 
 
   const newBook = async () => {
-    console.log("new book" , name , author , pages , price  , fileBase64, genres ) ; 
-    if(!name || !author || !pages || !price || !selectedGenres.length || !fileBase64.length ){
+    // console.log("new book" , name , author , pages , price  , fileBase64, genres ) ; 
+    if(!name || !author || !pages || !price || !selectedGenres.length ){
       setAllFieldsMandatory(true) ; 
       setTimeout(() => {
         setAllFieldsMandatory(false) ; 
       } , 2000) ; 
     } else{
       const formData = new FormData() ; 
+      console.log("this is the file Input" , fileInput)
       formData.append('name' , name) ; 
       formData.append('author' , author) ; 
       formData.append('pages'  , pages) ; 
       formData.append('genre' , selectedGenres) ; 
       formData.append('price' , price) ; 
-      formData.append('image' , fileBase64) ; 
+      formData.append('image' , fileInput) ; 
+      setLoading(true) ; 
       const response = await axios.post(BASE_URL + '/upload/Book' , formData , {withCredentials: true}) ; 
+      setLoading(false) ; 
+      navigate("/books") ; 
       console.log("this is the coming response: ",response) ; 
     }
   }
@@ -153,6 +157,9 @@ const UploadNewBook = () => {
           </div>
         </div>
       </div>
+      {
+        loading && <Loading color={{color: 'white'}}/>
+      }
     </div>
   );
 };

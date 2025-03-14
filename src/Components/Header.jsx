@@ -82,8 +82,8 @@ const Header = () => {
         </a>
       </div>
       <div>
-        <div className="mr-8 relative flex ">
-          {showUploadIcon &&   <PlusCircle className={`w-6 h-6 text-blue-500 mt-2 mr-4 cursor-pointer ${!isLogin ? "hidden" : ""}`}  onClick={handleUpload} />}
+        <div className="mr-8 relative flex" title="Upload a book">
+          {showUploadIcon &&   <PlusCircle  className={`w-6 h-6 text-blue-500 mt-2 mr-4 cursor-pointer ${!isLogin ? "hidden" : ""}`}  onClick={handleUpload} />}
           <button
             className={`btn cursor-pointer transition-all duration-300 ${
               showLoginAnimation
