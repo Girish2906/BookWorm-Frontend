@@ -1,7 +1,7 @@
 import Header from "./Header";
 import { useExploreLogin } from "./Context";
 import { useState , useEffect } from "react";
-import axios from "axios";
+import axios from 'axios';
 import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
