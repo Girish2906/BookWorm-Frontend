@@ -18,6 +18,9 @@ const BookCard = ({book}) => {
     const {firstName , lastName} = book.uploadedById ; 
     const date = new Date(book.createdAt
     );
+    if(name ==='That Night'){
+      console.log(image) ; 
+    }
     const [bookInterest , setBookInterest] = useState(false) ; 
     const [multipleRequestNotAllowed , setMultipleRequestNotAllowed ] = useState(false) ; 
     
@@ -73,7 +76,7 @@ const BookCard = ({book}) => {
         <div className="absolute top-5 left-8">
           <img
             className="h-80 w-80 object-contain" // Changed to object-contain
-            src={"data:image/png;base64," + image}
+            src={image}
             alt="Book Cover"
           />
         </div>

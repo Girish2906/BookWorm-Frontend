@@ -68,7 +68,7 @@ const UploadNewBook = () => {
       formData.append('price' , price) ; 
       formData.append('image' , fileInput) ; 
       setLoading(true) ; 
-      const response = await axios.post(BASE_URL + '/upload/Book' , formData , {withCredentials: true}) ; 
+      const response = await axios.post(BASE_URL + '/upload/BookS3' , formData , {withCredentials: true}) ; 
       setLoading(false) ; 
       navigate("/books") ; 
       console.log("this is the coming response: ",response) ; 
