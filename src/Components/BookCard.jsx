@@ -71,11 +71,12 @@ const BookCard = ({book}) => {
   const uploadedAt =  date.toLocaleDateString(undefined, options);
     return (
       <BookInterestContext.Provider value={{bookInterest , setBookInterest}} >
-      <div className="mx-auto items-center justify-center border-2 rounded-2xl w-5xl h-auto p-3 relative mb-3">
+      <div className="mx-auto items-center justify-center  border-2 rounded-2xl w-5xl h-auto p-3 relative mb-3 ">
       <div className="flex flex-row">
         <div className="absolute top-5 left-8">
           <img
-            className="h-80 w-80 object-contain" // Changed to object-contain
+          className="h-80 w-80 object-contain transition-transform duration-300 ease-in-out hover:scale-110 hover:shadow-xl"
+            // className="h-80 w-80 object-contain" 
             src={image}
             alt="Book Cover"
           />
