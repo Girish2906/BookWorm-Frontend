@@ -12,6 +12,7 @@ import appStore , {persistor} from './utils/store';
 import Books  from'./Components/Books' ; 
 import UploadNewBook from './Components/UploadNewBook'; 
 import {ExploreLoginProvider} from './Components/Context' ; 
+import Notification from './Components/Notification';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path = '/books' element = {<Books/>} />
             <Route path = '/upload' element = {<UploadNewBook/>} />
+            <Route path = '/interests' element = {<Notification/>} />
             
           </Routes>
         </BrowserRouter>
