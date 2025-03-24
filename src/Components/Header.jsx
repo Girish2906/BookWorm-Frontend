@@ -12,7 +12,7 @@ import { PlusCircle } from "lucide-react";
 import { useExploreLogin } from "./Context";
 
 const Header = () => {
-  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin(); 
+  const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin() ; 
   console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
 
   // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
@@ -23,12 +23,15 @@ const Header = () => {
   const [loading , setLoading] = useState(false) ; 
   const [signIn, setSignIn] = useState(true);
   const [showUploadIcon , setShowUploadIcon] = useState(true) ; 
+  const [showNotificationIcon , setShowNotificationIcon ] = useState(true) ; 
 
   const checkURL = () => {
       const hostUrl = window.location.href.split('/') ; 
+      console.log(30 , "this is the hostURL" , hostUrl) ; 
     if(hostUrl[hostUrl.length-1] === 'upload'){
-      console.log(hostUrl , hostUrl[hostUrl.length-1] === 'upload' )
       setShowUploadIcon(!showUploadIcon) ; 
+    } if(hostUrl[hostUrl.length-1] === 'interests'){
+      setShowNotificationIcon(!showNotificationIcon) ; 
     }
   }
 
@@ -71,7 +74,7 @@ const Header = () => {
   }
 
   const loadNotificationn = () => {
-    navigate("/interests") ; 
+    navigate("/interests" ) ; 
   }
 
   useEffect(() => {
@@ -88,10 +91,9 @@ const Header = () => {
       <div>
         <div className="mr-8 relative flex">
       {
-        isLogin &&  (
+        isLogin && showNotificationIcon &&  (
           <div className="mr-6">
              <button class="relative bg-blue-700 hover:bg-blue-800 duration-300 py-2 px-4 text-blue-100 rounded cursor-pointer" onClick={loadNotificationn} >Notifications
-              {/* <span class="absolute bg-green-700 text-green-100 px-2 py-1 text-xs font-bold rounded-full -top-3 -right-3">New</span> */}
           </button>
           </div>
         )

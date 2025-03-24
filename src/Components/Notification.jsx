@@ -24,14 +24,19 @@ const Notification = () => {
     useEffect(() => {
         getAllInterests() ; 
     } , []) ; 
-    useEffect(() => {
-        console.log("this is the loading variable" , loading) ;  
-    } , [loading]) ; 
+
     return (
         <div>
             <Header/>
             { !loading  && 
-                interests.map(interest => <InterestNotification interest = {interest}/> )
+                (
+                    <div className="flex flex-wrap gap-4 p-4 justify-center">
+                        {interests.map((interest, index) => (
+                            <InterestNotification key={index} interest={interest} />  
+                        ))}
+                    </div>
+
+                )
             }
             {
                 loading && <Loading color = {{color: "white"}}/>

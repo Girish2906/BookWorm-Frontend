@@ -13,6 +13,7 @@ import Books  from'./Components/Books' ;
 import UploadNewBook from './Components/UploadNewBook'; 
 import {ExploreLoginProvider} from './Components/Context' ; 
 import Notification from './Components/Notification';
+import StartChat from './Components/StartChat';
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path = '/books' element = {<Books/>} />
             <Route path = '/upload' element = {<UploadNewBook/>} />
             <Route path = '/interests' element = {<Notification/>} />
-            
+            <Route path='/chat' element={ <StartChat/> } />
+
           </Routes>
         </BrowserRouter>
       </ExploreLoginProvider>
