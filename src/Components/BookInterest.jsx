@@ -14,13 +14,13 @@ const BookInterest = ({book}) => {
     const [lengthOfNote , setLengthOfNote] = useState(0) ; 
     const [loading , setLoading] = useState(false) ; 
     const [noteLengthExceed , setNoteLengthExceed] = useState('text-gray-600') ; 
-    console.log("this is the book interest",bookInterest , name) ; 
+    // console.log("this is the book interest",bookInterest , name) ; 
 
     const sendInterest = async () => {
       setLoading(true) ; 
       try{
-        const response = await axios.post(BASE_URL + "/bookInterest/interested/" + bookId , {message: note} , {withCredentials: true}) ; 
-        console.log(response) ; 
+        const response = await axios.post(BASE_URL + "/bookInterest1/interested/" + bookId , { bookInterestId: "" , initialMessage: note} , {withCredentials: true}) ; 
+        // console.log(response) ; 
         setLoading(false) ; 
         setBookInterest(false) ;
       } catch(Error){

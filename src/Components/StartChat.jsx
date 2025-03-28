@@ -1,9 +1,26 @@
 import Header from "./Header";
 import ChatWindow from "./ChatWindow" ; 
 import Users from "./Users" ; 
+import {useState , useEffect} from "react" ;
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 
 const StartChat = () => {
+
+    const getAcceptedPeople = async () => {
+        try{
+            const response = await axios.get(BASE_URL + '/bookInterest/acceptedPeople' , {withCredentials: true}) ;
+            console.log("response of accepted book interest API" , response) ; 
+        } catch(Error){
+            console.log("getAccepted Poeple blokc" , Error.message) ; 
+        }
+    }
+
+    useEffect(() => {
+        getAcceptedPeople() ; 
+    } , []) ; 
+
     return (
         <div>
             <Header />
