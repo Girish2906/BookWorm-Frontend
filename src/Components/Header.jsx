@@ -13,7 +13,7 @@ import { useExploreLogin } from "./Context";
 
 const Header = () => {
   const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin() ; 
-  console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
+  // console.log("isLogin and showLoginAnimation",isLogin, showLoginAnimation);
 
   // console.log(obj , " in header.jsx " , isLogin , showLoginAnimation ) ;
   // console.log("!#$#",isLogin, showLoginAnimation) ;
@@ -27,7 +27,7 @@ const Header = () => {
 
   const checkURL = () => {
       const hostUrl = window.location.href.split('/') ; 
-      console.log(30 , "this is the hostURL" , hostUrl) ; 
+      // console.log(30 , "this is the hostURL" , hostUrl) ; 
     if(hostUrl[hostUrl.length-1] === 'upload'){
       setShowUploadIcon(!showUploadIcon) ; 
     } if(hostUrl[hostUrl.length-1] === 'interests'){

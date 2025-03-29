@@ -1,7 +1,7 @@
 import { useState , useEffect } from "react";
 
 const InterestNotification = ({interest}) => {
-
+    console.log("interestnotification.jsx",interest) ; 
     const startChatting = () => {
         try{
             window.open("/chat", "_blank");
@@ -10,8 +10,8 @@ const InterestNotification = ({interest}) => {
         }
     } ; 
 
-    const initialMessage = interest.initialMessage ; 
-    const { createdAt} = interest.interestedById ; 
+    const initialMessage = interest?.bookInterestReceived?.initialMessage ; 
+    const { createdAt} = interest?.bookInterestReceived
     const date = new Date(createdAt) ; 
     const formattedDate = date.toLocaleString("en-IN", { 
         year: "numeric", 
@@ -24,19 +24,19 @@ const InterestNotification = ({interest}) => {
       });
     const convertToUpperCase = (name) => {
         const nameString = name.split(' ') ; 
-        console.log(nameString) ; 
+        // console.log(nameString) ; 
         const firstName = nameString[0].charAt(0).toUpperCase() + nameString[0].slice(1) ; 
         const secondName = nameString[1].charAt(0).toUpperCase() + nameString[1].slice(1) ; 
-        console.log("edited names: ", firstName + ' ' + secondName)
+        // console.log("edited names: ", firstName + ' ' + secondName)
         return firstName + ' ' + secondName ; 
     }
-    const name = interest.interestedById.firstName + " " + interest.interestedById.lastName ;   
-    const nameOfTheBook = interest.bookId.name ; 
+    const name = interest.interestedPerson.firstName + " " + interest.interestedPerson.lastName ;   
+    const nameOfTheBook = interest.bookInterestReceived.name ; 
     return (
-        <div  className="border w-80 h-auto bg-gray-600 p-4 rounded-lg shadow-md flex flex-col">
+        <div  className="border w-80 h-auto bg-gray-400 p-4 rounded-lg shadow-md flex flex-col">
             <p className="text-black text-3xl font-bold">{convertToUpperCase(name)}</p>
             <p className="text-black text-2xl font-medium">{nameOfTheBook}</p>
-            <p className="text-black font-extralight">{formattedDate}</p>
+            <p className="text-black font-semibold">{formattedDate}</p>
             <p className="text-black font-light">{initialMessage}</p>
             <div className="flex justify-between mt-auto bg-gray-700 p-2 rounded-b-lg">
                <div> 

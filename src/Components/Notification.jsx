@@ -9,13 +9,13 @@ const Notification = () => {
     const [loading , setLoading] = useState(true) ; 
     const [interests , setInterests] = useState([]) ; 
     const getAllInterests = async () => {
-        console.log("getAllInterests") ; 
+        // console.log("getAllInterests") ; 
         try{
-            const response = await axios.get(BASE_URL + '/bookInterest/getAllInterests' , {withCredentials: true}) ; 
+            const response = await axios.get(BASE_URL + '/bookInterest/interestsReceived/interested' , {withCredentials: true}) ; 
             setLoading(false) ; 
 
             setInterests(response.data.data) ; 
-            console.log(response) ; 
+            // console.log("response bookInterest/interestReceived" , response) ; 
         } catch(Error){
             console.log(Error.message) ; 
         }
