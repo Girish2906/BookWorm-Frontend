@@ -11,7 +11,8 @@ const StartChat = () => {
     const [selectedUser , setSelectedUser] = useState(null) ; 
     const getAcceptedPeople = async () => {
         try{
-            const response = await axios.get(BASE_URL + '/bookInterest/acceptedPeople' , {withCredentials: true}) ;
+            const response = await axios.get(BASE_URL + '/bookInterest/interestsReceived/ongoing' , {withCredentials: true}) ;
+            // const response = await axios.get(BASE_URL + '/bookInterest/interestReceived/ongoing' , {withCredentials: true}) ;
             setUsers(response.data.data) ; 
             console.log("response of accepted book interest API" , response) ; 
         } catch(Error){
@@ -29,7 +30,7 @@ const StartChat = () => {
             <div className="flex flex-row flex-grow">
             <div  className="w-1/5 border-r border-gray-300 p-4 bg-gray-500 space-y-3 rounded-xl" >
                 {
-                    users.map( user => ( 
+                    users?.map( user => ( 
                         <Users key={user._id} user={user} onSelect = { () => setSelectedUser(user)} isSelected = {selectedUser?._id === user._id} />
                     ))
                 }

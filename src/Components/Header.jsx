@@ -10,6 +10,7 @@ import { ExploreLoginContext } from "./Books";
 // import { Sparkles } from "lucide-react";
 import { PlusCircle } from "lucide-react";
 import { useExploreLogin } from "./Context";
+import { MessageCircle } from "lucide-react";
 
 const Header = () => {
   const { isLogin, setIsLogin, showLoginAnimation, setShowLoginAnimation } = useExploreLogin() ; 
@@ -24,6 +25,7 @@ const Header = () => {
   const [signIn, setSignIn] = useState(true);
   const [showUploadIcon , setShowUploadIcon] = useState(true) ; 
   const [showNotificationIcon , setShowNotificationIcon ] = useState(true) ; 
+  const [showChatIcon , setShowChatIcon] = useState(true) ;
 
   const checkURL = () => {
       const hostUrl = window.location.href.split('/') ; 
@@ -32,6 +34,8 @@ const Header = () => {
       setShowUploadIcon(!showUploadIcon) ; 
     } if(hostUrl[hostUrl.length-1] === 'interests'){
       setShowNotificationIcon(!showNotificationIcon) ; 
+    } if(hostUrl[hostUrl.length-1] === 'chat'){
+      setShowChatIcon(!showChatIcon) ; 
     }
   }
 
@@ -77,6 +81,10 @@ const Header = () => {
     navigate("/interests" ) ; 
   }
 
+  const loadChatComponent = () => {
+    navigate("/chat") ; 
+  }
+
   useEffect(() => {
     fetchUser();
   });
@@ -90,6 +98,11 @@ const Header = () => {
       </div>
       <div>
         <div className="mr-8 relative flex">
+      {
+        isLogin && showChatIcon && (
+          <MessageCircle className="w-6 h-6 text-gray-600 hover:text-blue-500 cursor-pointer mr-3 mt-2" onClick={loadChatComponent} />
+        )
+      }
       {
         isLogin && showNotificationIcon &&  (
           <div className="mr-6">
