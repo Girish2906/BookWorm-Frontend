@@ -7,17 +7,29 @@ import { createSocketConnection } from "../utils/socket";
 
 const ChatWindow = ({ user }) => {
 
-    const [messages , setMessages] = useState([{text: "Hello World"}]) ; 
+    // const [messages , setMessages] = useState([{text: "Hello World"}]) ; 
+    const [messages , setMessages] = useState([]) ; 
     const [newMessage , setNewMessage] = useState("") ; 
     const loggedInUser = useSelector(state => state.user) ; 
-    console.log("loggedInUser" , loggedInUser , user) ;
+    // console.log("loggedInUser" , loggedInUser , user) ; 
     const userId = loggedInUser?.data?._id ; 
-    const targetUserId  = user?._id; 
-    console.log(15 , userId , targetUserId) ; 
+    const targetUserId  = user?.chatPerson?._id; 
+    // console.log(15 , userId , targetUserId) ; 
+    const firstName = user?.chatPerson?.firstName ; 
+    const secondName = user?.chatPerson?.lastName ; 
+
     useEffect(() => {
         if(!userId) return ; 
         const socket = createSocketConnection() ; 
-        socket.emit("joinChat" , {userId , targetUserId}) ;  
+        socket.emit("joinChat" , {userId , targetUserId , firstName}) ;  
+
+        socket.on("messageReceived" , ({firstName , newMessage}) =>{
+            console.log("message received in front end:  ",newMessage) ; 
+            // setMessages([...messages , {firstName , text: newMessage}]) ; 
+            setMessages( (messages) => {  return [...messages , {firstName , text: newMessage}] } ) ; 
+            console.log(firstName , newMessage , " messageReceived function socket " , messages) ; 
+        } )
+
         return () => {
             socket.disconnect() ; 
         }
@@ -33,27 +45,36 @@ const ChatWindow = ({ user }) => {
     }
     // let name = '' ; 
     // if(interestedById){
-     let name = convertToUpperCase(user?.interestedById?.firstName + " " + user?.interestedById?.lastName) ;
+     let name = convertToUpperCase(user?.chatPerson?.firstName + " " + user?.chatPerson?.lastName) ;
 
     // } 
     // const name = convertToUpperCase(interestedById?.firstName + " " + interestedById?.lastName) ;
 
     const sendMessage = () => {
+        if(!newMessage) return ;
+        console.log(newMessage);
         const socket = createSocketConnection() ; 
-        socket.emit("sendMessage" , (name ,  userId , targetUserId , newMessage) => {
-
-        })
+        const firstName = loggedInUser?.data?.firstName ;
+        socket.emit("sendMessage" , { firstName ,  userId , targetUserId , newMessage} ) ; 
+        setNewMessage('') ; 
     }
 
     const {interestedById} = user ; 
-    console.log("7 chatWindow" , user) ; 
+    // console.log("7 chatWindow" , user) ; 
     // const user = useSelector(state => state.user) ; 
 
     return (
         <div className="p-4 border rounded-lg bg-gray-400">
             <h2 className="text-xl font-bold">{name}</h2>
             <div className="flex-grow bg-gray-200 p-4 mt-3 rounded-lg shadow-inner overflow-y-auto">
-                <p className="text-gray-700">Chat messages will appear here...</p>
+            {/* <p className="text-gray-700">Chat messages will appear here...</p> */}
+                <div className="text-gray-700">{
+                   messages?.length > 0 && messages?.map((message , index) => (
+                        <p key={index}>
+                            {message.text}
+                        </p>
+                    ))
+                }</div>
             </div>
             <div className="flex items-center gap-2 mt-3 bg-gray-500">
             <input 

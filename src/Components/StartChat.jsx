@@ -11,7 +11,7 @@ const StartChat = () => {
     const [selectedUser , setSelectedUser] = useState(null) ; 
     const getAcceptedPeople = async () => {
         try{
-            const response = await axios.get(BASE_URL + '/bookInterest/interestsReceived/ongoing' , {withCredentials: true}) ;
+            const response = await axios.get(BASE_URL + '/bookInterest/acceptedPeople' , {withCredentials: true}) ; 
             // const response = await axios.get(BASE_URL + '/bookInterest/interestReceived/ongoing' , {withCredentials: true}) ;
             setUsers(response.data.data) ; 
             console.log("response of accepted book interest API" , response) ; 
