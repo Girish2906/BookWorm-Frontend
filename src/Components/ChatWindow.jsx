@@ -81,11 +81,29 @@ const ChatWindow = ({ user }) => {
                 ))}
             </div>
             </div>
-            <div className="flex items-center gap-2 mt-3 bg-gray-500">
+            <div className="flex items-center gap-3 mt-3 bg-gray-500 p-3 rounded-lg">
+  <input
+    type="text"
+    value={newMessage}
+    onChange={(e) => setNewMessage(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    }}
+    className="flex-grow p-3 border border-gray-300 rounded-full text-gray-900 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+    placeholder="Type a message..."
+  />
+  <button className="p-3 px-5 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-200">
+    Send
+  </button>
+</div>
+
+            {/* <div className="flex items-center gap-2 mt-3 bg-gray-500">
             <input
                 type="text"  value={newMessage} onChange={(e) => setNewMessage(e.target.value)}  onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      sendMessage(); // Function to send the message
+                      sendMessage(); 
                     }
                   }}
                 className="flex-grow p-2 border rounded-lg" 
@@ -94,7 +112,7 @@ const ChatWindow = ({ user }) => {
             <button className="p-2 bg-blue-500 text-white rounded-4xl hover:bg-blue-600" onClick={sendMessage} >
                 Send
             </button>
-            </div>
+            </div> */}
         </div>
     );
 } ; 
