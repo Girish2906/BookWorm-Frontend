@@ -11,10 +11,11 @@ const StartChat = () => {
     const [selectedUser , setSelectedUser] = useState(null) ; 
     const getAcceptedPeople = async () => {
         try{
+            console.log("this is the BASE_URL we are hitting" , BASE_URL) ;
             const response = await axios.get(BASE_URL + '/bookInterest/acceptedPeople' , {withCredentials: true}) ; 
             // const response = await axios.get(BASE_URL + '/bookInterest/interestReceived/ongoing' , {withCredentials: true}) ;
             setUsers(response.data.data) ; 
-            console.log("response of accepted book interest API" , response) ; 
+            // console.log("response of accepted book interest API" , response , window.location.href , typeof window.location.href , window.location.href.split('/').includes('localhost')) ; 
         } catch(Error){
             console.log("getAccepted Poeple blokc" , Error.message) ; 
         }

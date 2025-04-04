@@ -1,6 +1,6 @@
 
 const Users = ({ user, onSelect, isSelected }) => {
-    console.log(3 , user) ; 
+    // console.log(3 , user) ; 
     const convertToUpperCase = (name) => {
         const nameString = name.split(' ') ; 
         // console.log(nameString) ; 
@@ -10,7 +10,7 @@ const Users = ({ user, onSelect, isSelected }) => {
         return firstName + ' ' + secondName ; 
     }
 
-    console.log("user in user list",user) ; 
+    // console.log("user in user list",user) ; 
     let name = convertToUpperCase(user.chatPerson.firstName + " " + user.chatPerson.lastName) ; 
     return (
         <div  className={`p-3 bg-white shadow-md h-10 rounded-3xl cursor-pointer 

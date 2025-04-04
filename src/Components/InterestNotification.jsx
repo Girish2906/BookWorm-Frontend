@@ -1,7 +1,7 @@
 import { useState , useEffect } from "react";
 
 const InterestNotification = ({interest}) => {
-    console.log("interestnotification.jsx",interest) ; 
+    console.log("interestnotification.jsx",interest , window.location.href) ; 
     const startChatting = () => {
         try{
             window.open("/chat", "_blank");

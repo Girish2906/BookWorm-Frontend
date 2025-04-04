@@ -24,10 +24,10 @@ const ChatWindow = ({ user }) => {
         socket.emit("joinChat" , {userId , targetUserId , firstName}) ;  
 
         socket.on("messageReceived" , ({firstName , newMessage , _id}) =>{
-            console.log("message received in front end:  ",newMessage) ; 
+            // console.log("message received in front end:  ",newMessage) ; 
             // setMessages([...messages , {firstName , text: newMessage}]) ; 
             setMessages( (messages) => {  return [...messages , {firstName , text: newMessage , _id }] } ) ; 
-            console.log(firstName , newMessage , " messageReceived function socket " , messages) ; 
+            // console.log(firstName , newMessage , " messageReceived function socket " , messages) ; 
         } )
 
         return () => {
@@ -52,7 +52,7 @@ const ChatWindow = ({ user }) => {
 
     const sendMessage = () => {
         if(!newMessage) return ;
-        console.log(newMessage);
+        // console.log(newMessage);
         const socket = createSocketConnection() ; 
         const firstName = loggedInUser?.data?.firstName ;
         socket.emit("sendMessage" , { firstName ,  userId , targetUserId , newMessage , _id: loggedInUser?.data?._id} ) ; 
