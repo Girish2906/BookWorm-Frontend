@@ -18,6 +18,30 @@ const ChatWindow = ({ user }) => {
     const firstName = user?.chatPerson?.firstName ; 
     const secondName = user?.chatPerson?.lastName ; 
 
+    const fetchChats = async () => {
+        try{
+            const response = await axios.get(BASE_URL + "/chat/" + targetUserId , {withCredentials: true} ) ; 
+            response.data.data.messages.map(message => {
+                const _id = message.senderId._id ; 
+                const firstName = message.senderId.firstName ; 
+                const text = message.message ; 
+                setMessages((messages) => { return [...messages , {text , firstName , _id}]}) ;
+            })
+            // const previousMessages = response.data.data.messages.map(message => {
+            //     return {
+            //         [...messages , {text: message.message , firstName: firstName: sender.firstName , _id: senderId._id }]
+            //     }
+            // })
+            console.log("chat API :",response) ; 
+        } catch(Error){
+            console.log("Error in getting response of chat API" , Error.message) ; 
+        }
+    }
+    
+    useEffect(  () => {
+        fetchChats() ; 
+    } , []) ; 
+
     useEffect(() => {
         if(!userId) return ; 
         const socket = createSocketConnection() ; 
