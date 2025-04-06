@@ -13,6 +13,7 @@ const Notification = () => {
         try{
             const response = await axios.get(BASE_URL + '/bookInterest/interestsReceived/interested' , {withCredentials: true}) ; 
             setLoading(false) ; 
+            console.log("16 , ",  response)  ; 
 
             setInterests(response.data.data) ; 
             // console.log("response bookInterest/interestReceived" , response) ; 
@@ -32,7 +33,7 @@ const Notification = () => {
                 (
                     <div className="flex flex-wrap gap-4 p-4 justify-center">
                         {interests.map((interest, index) => (
-                            <InterestNotification key={index} interest={interest} />  
+                            <InterestNotification key={index} interest={interest}  onRefresh={getAllInterests} />  
                         ))}
                     </div>
 

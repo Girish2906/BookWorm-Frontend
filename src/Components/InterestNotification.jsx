@@ -1,17 +1,24 @@
 import { useState , useEffect } from "react";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios";
 
-const InterestNotification = ({interest}) => {
-    console.log("interestnotification.jsx",interest , window.location.href) ; 
-    const startChatting = () => {
+const InterestNotification = ({interest , onRefresh}) => {
+    console.log("interestnotification.jsx",interest ) ; 
+    const bookInterestId = interest?._id ; 
+    const interestedBookId = interest?.interestedBook?._id ; 
+    const startChatting = async () => {
         try{
+            const response = await axios.post(BASE_URL + '/bookInterest1/ongoing/' + interestedBookId , {bookInterestId} , {withCredentials: true} ) ; 
+            console.log("bookInterest1ongoing API POST call " ,response) ;
+            onRefresh();
             window.open("/chat", "_blank");
         } catch(Error){
             console.log(" start chatting block",Error.message) ; 
         }
     } ; 
 
-    const initialMessage = interest?.bookInterestReceived?.initialMessage ; 
-    const { createdAt} = interest?.bookInterestReceived
+    const initialMessage = interest?.initialMessage ; 
+    const { createdAt} = interest ; 
     const date = new Date(createdAt) ; 
     const formattedDate = date.toLocaleString("en-IN", { 
         year: "numeric", 
@@ -31,7 +38,7 @@ const InterestNotification = ({interest}) => {
         return firstName + ' ' + secondName ; 
     }
     const name = interest.interestedPerson.firstName + " " + interest.interestedPerson.lastName ;   
-    const nameOfTheBook = interest.bookInterestReceived.name ; 
+    const nameOfTheBook = interest?.interestedBook?.name ; 
     return (
         <div  className="border w-80 h-auto bg-gray-400 p-4 rounded-lg shadow-md flex flex-col">
             <p className="text-black text-3xl font-bold">{convertToUpperCase(name)}</p>

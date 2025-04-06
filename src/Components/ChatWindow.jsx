@@ -14,25 +14,24 @@ const ChatWindow = ({ user }) => {
     // console.log("loggedInUser" , loggedInUser , user) ; 
     const userId = loggedInUser?.data?._id ; 
     const targetUserId  = user?.chatPerson?._id; 
+    // console.log(17 , userId , targetUserId);
+    
     // console.log(15 , userId , targetUserId) ; 
     const firstName = user?.chatPerson?.firstName ; 
     const secondName = user?.chatPerson?.lastName ; 
 
     const fetchChats = async () => {
+        setMessages([]) ; 
         try{
             const response = await axios.get(BASE_URL + "/chat/" + targetUserId , {withCredentials: true} ) ; 
+            console.log("response of chat API" , response) ; 
             response.data.data.messages.map(message => {
                 const _id = message.senderId._id ; 
                 const firstName = message.senderId.firstName ; 
                 const text = message.message ; 
                 setMessages((messages) => { return [...messages , {text , firstName , _id}]}) ;
-            })
-            // const previousMessages = response.data.data.messages.map(message => {
-            //     return {
-            //         [...messages , {text: message.message , firstName: firstName: sender.firstName , _id: senderId._id }]
-            //     }
-            // })
-            console.log("chat API :",response) ; 
+            }) ; 
+            // console.log("chat API :",response) ; 
         } catch(Error){
             console.log("Error in getting response of chat API" , Error.message) ; 
         }
@@ -40,7 +39,7 @@ const ChatWindow = ({ user }) => {
     
     useEffect(  () => {
         fetchChats() ; 
-    } , []) ; 
+    } , [targetUserId]) ; 
 
     useEffect(() => {
         if(!userId) return ; 
@@ -118,7 +117,7 @@ const ChatWindow = ({ user }) => {
     className="flex-grow p-3 border border-gray-300 rounded-full text-gray-900 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
     placeholder="Type a message..."
   />
-  <button className="p-3 px-5 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-200">
+  <button onClick={sendMessage} className="p-3 px-5 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-200">
     Send
   </button>
 </div>
